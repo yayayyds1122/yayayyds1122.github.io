@@ -1,0 +1,45 @@
+---
+title: "Hello World & Outer Space, Jiayi's Here!"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+# EDUCATION
+**Columbia University Mailman School of Public Health** 
+Master of Public Health: Biostatistics, Certificate in Advanced Epidemiology 
+
+** Boston College (BC)** 
+Bachelor of Science in Neuroscience (GPA: 3.52)
+
+# RESEARCH EXPERIENCE
+
+**Columbia University Medical Center, New York State Psychiatric Institute New York NY** 
+Research Assistant (PI: Seonjoo Lee) Sept 2023 – Present 2024
+
+* Conducted various statistical analysis across three research projects, contributing to the broader understanding of the interplay between biological markers, mental health, and developmental outcomes in R language
+
+* Investigated microstructural variations across different psychiatric comorbidity groups in youth by using principal component analysis (PCA) and non-negative matrix factorization (NMF), contributing to the understanding of brain-
+behavior relationships.
+
+* Analyzed placenta DNA methylation data to explore the impact of maternal allostatic load on gene expression, assessing its associations with stress and child developmental outcomes. 
+
+**Social Cognitive and Neural Sciences Lab, Columbia University New York, NY**  Volunteer June 2024 – Present 2024
+
+* Created and optimized five boiler plate templates to streamline and standardize fMRI analyses for the lab in Python, enabling quick and easy modifications for various research projects
+
+* Focused on refining multivariate analysis including classification, representation similarity analysis( RSA), and neural dimensionality reduction etc to support lab’s research
+
+**Department of Psychology and Neuroscience, Boston College Chestnut Hill, MA**
+Research Assistant (PI: John Christianson) Sept 2021 – May 2023 
+
+* Investigate the Role of the Biological Mechanism of How 5-HT and the Insula Interact to Change Social Behaviors
+
+* Investigated serotonergic projection of dorsal raphe nucleus(DRN) to the insula cortex(IC) in age- and stress-
+dependent social exploration in adults and juvenile rats
+
+* Conducted a fluorescent insitu hybridization to investigate cell types colocalize with 5HT2creceptors in insula; performed post-operative care, extracted, sliced and stained brain; imaged brain slices; gathered and presented data in the lab and contributed to conversations on how to improve the experiments.
+
+
+
+
