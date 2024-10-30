@@ -1,30 +1,88 @@
 ---
-title: "plotly"
-author: "Jiayi"
-date: "2024-10-29"
-output: html_document
+title: "Plots of NY NOAA"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(flexdashboard)
+library(tidyverse)
+library(p8105.datasets)
+library(plotly)
+library(rnoaa)
 ```
 
-## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+```{r}
+weather_df = 
+  rnoaa::meteo_pull_monitors(
+    c("USW00094728", "USW00022534", "USS0023B17S"),
+    var = c("PRCP", "TMIN", "TMAX"), 
+    date_min = "2021-01-01",
+    date_max = "2022-12-31") |>
+  mutate(
+    name = case_match(
+      id, 
+      "USW00094728" ~ "CentralPark_NY"),
+    tmin = tmin / 10,
+    tmax = tmax / 10) |>
+    separate(date, into = c("year", "month", "day"), sep = "-", convert = TRUE) %>% 
+    mutate(
+    month = as.factor(month)
+  ) %>% 
+    select(name, id, everything())
+```
+Column {data-width=650}
+-----------------------------------------------------------------------
+### Scatterplot of Minimum and Maximum Temperatures at Central Park
+```{r}
+scatter_ggplot = 
+  weather_df %>% 
+  ggplot(aes(x = tmin, y = tmax)) + 
+  geom_point(alpha = 0.25)+
+  labs(x = "Minimum Temperature", y = "Maximum Temperature",
+  title = "Scatterplot of Minimum and Maximum Temperatures at Central Park") +
+  coord_cartesian()
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+ggplotly(scatter_ggplot)
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+Column {data-width=350}
+-----------------------------------------------------------------------
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+### Boxplot of Maximum Temperature in Central Park
+
+```{r Boxplot}
+box_ggplot = 
+  weather_df %>% 
+  filter(!is.na(tmax) & is.finite(tmax)) %>%
+  ggplot(aes(x = month, y = tmax)) + 
+  labs(y = "maximum temperature", title = "Boxplot of Maximum Temperature in Central Park") +
+  geom_boxplot()
+
+ggplotly(box_ggplot)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+### Barplot of Average Monthly Precipitation in CEntral Park 
+
+```{r barchart}
+weather_df_bar <- weather_df %>%
+  group_by(month) %>%
+  summarize(avg_prcp = mean(prcp, na.rm = TRUE)) %>% 
+  mutate(
+    month = as.factor(month)
+  )
+
+bar_ggplot =
+  weather_df_bar %>% 
+  ggplot(
+    aes(x = month, y = avg_prcp)) +
+    geom_bar(stat = "identity")+
+      labs(x = "Month", y = "Precipitation",title = "Barplot of Average Monthly Precipitation in Central Park")
+
+ggplotly(bar_ggplot)
+```
