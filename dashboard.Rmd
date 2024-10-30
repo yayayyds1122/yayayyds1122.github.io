@@ -1,0 +1,87 @@
+---
+title: "Plots of NY NOAA"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+library(p8105.datasets)
+library(plotly)
+library(rnoaa)
+library(ggplot2)
+```
+
+```{r, echo = FALSE,message = FALSE, warning = FALSE}
+weather_df = 
+  rnoaa::meteo_pull_monitors(
+    c("USW00094728", "USW00022534", "USS0023B17S"),
+    var = c("PRCP", "TMIN", "TMAX"), 
+    date_min = "2021-01-01",
+    date_max = "2022-12-31") |>
+  mutate(
+    name = case_match(
+      id, 
+      "USW00094728" ~ "CentralPark_NY"),
+    tmin = tmin / 10,
+    tmax = tmax / 10) |>
+    separate(date, into = c("year", "month", "day"), sep = "-", convert = TRUE) %>% 
+    mutate(
+    month = as.factor(month)
+  ) %>% 
+    select(name, id, everything())
+```
+{data-width=650}
+-----------------------------------------------------------------------
+
+### Scatterplot of Minimum and Maximum Temperatures at Central Park
+```{r scatterplot, echo=FALSE}
+scatter_ggplot = 
+  weather_df %>% 
+  ggplot(aes(x = tmin, y = tmax)) + 
+  geom_point(alpha = 0.25)+
+  labs(x = "Minimum Temperature", y = "Maximum Temperature",
+  title = "Scatterplot of Minimum and Maximum Temperatures at Central Park") +
+  coord_cartesian()
+
+ggplotly(scatter_ggplot)
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Boxplot of Maximum Temperature in Central Park
+
+```{r Boxplot, echo=FALSE}
+box_ggplot = 
+  weather_df %>% 
+  filter(!is.na(tmax) & is.finite(tmax)) %>%
+  ggplot(aes(x = month, y = tmax)) + 
+  labs(y = "maximum temperature", title = "Boxplot of Maximum Temperature in Central Park") +
+  geom_boxplot()
+
+ggplotly(box_ggplot)
+```
+
+### Barplot of Average Monthly Precipitation in CEntral Park 
+
+```{r barchart, echo=FALSE}
+weather_df_bar <- weather_df %>%
+  group_by(month) %>%
+  summarize(avg_prcp = mean(prcp, na.rm = TRUE)) %>% 
+  mutate(
+    month = as.factor(month)
+  )
+
+bar_ggplot =
+  weather_df_bar %>% 
+  ggplot(
+    aes(x = month, y = avg_prcp)) +
+    geom_bar(stat = "identity")+
+      labs(x = "Month", y = "Precipitation",title = "Barplot of Average Monthly Precipitation in Central Park")
+
+ggplotly(bar_ggplot)
+```
