@@ -15,4 +15,4 @@ navbar:
       href: www.linkedin.com/in/jiayi-li-9b32441b9
 output:
   html_document:
-    theme: cerulean
+    css: bootstrap.css

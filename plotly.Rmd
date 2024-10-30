@@ -4,6 +4,7 @@ output:
   flexdashboard::flex_dashboard:
     orientation: columns
     vertical_layout: fill
+    hide_code: TRUE
 ---
 
 ```{r setup, include=FALSE}
@@ -16,7 +17,7 @@ library(rnoaa)
 ```
 
 
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 weather_df = 
   rnoaa::meteo_pull_monitors(
     c("USW00094728", "USW00022534", "USS0023B17S"),
@@ -35,10 +36,10 @@ weather_df =
   ) %>% 
     select(name, id, everything())
 ```
-Column {data-width=650}
+{data-width=650}
 -----------------------------------------------------------------------
 ### Scatterplot of Minimum and Maximum Temperatures at Central Park
-```{r}
+```{r scatterplot, echo=FALSE}
 scatter_ggplot = 
   weather_df %>% 
   ggplot(aes(x = tmin, y = tmax)) + 
@@ -50,13 +51,12 @@ scatter_ggplot =
 ggplotly(scatter_ggplot)
 ```
 
-
-Column {data-width=350}
+{data-width=350}
 -----------------------------------------------------------------------
 
 ### Boxplot of Maximum Temperature in Central Park
 
-```{r Boxplot}
+```{r Boxplot, echo=FALSE}
 box_ggplot = 
   weather_df %>% 
   filter(!is.na(tmax) & is.finite(tmax)) %>%
@@ -69,7 +69,7 @@ ggplotly(box_ggplot)
 
 ### Barplot of Average Monthly Precipitation in CEntral Park 
 
-```{r barchart}
+```{r barchart, echo=FALSE}
 weather_df_bar <- weather_df %>%
   group_by(month) %>%
   summarize(avg_prcp = mean(prcp, na.rm = TRUE)) %>% 
