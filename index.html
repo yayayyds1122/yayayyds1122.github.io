@@ -337,7 +337,7 @@ div.tocify {
   </a>
 </li>
 <li>
-  <a href="https://github.com/yayayyds1122">
+  <a href="https://github.com/yayayyds1122/">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
@@ -468,4 +468,9 @@ $(document).ready(function ()  {
     var script = document.createElement("script");
     script.type = "text/javascript";
     script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    document.getElementsByTa
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
