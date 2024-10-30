@@ -10,9 +10,9 @@ navbar:
     - icon: fa-envelope fa-lg
       href: mailto:<jl6521@cumc.columbia.com>
     - icon: fa-github fa-lg
-      href: https://github.com/yayayyds1122
+      href: https://github.com/yayayyds1122/
     - icon: fa-brands fa-linkedin
       href: www.linkedin.com/in/jiayi-li-9b32441b9
 output:
   html_document:
-    css: bootstrap.
+    theme:cosmo
