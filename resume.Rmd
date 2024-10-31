@@ -5,12 +5,13 @@ output:
     toc: true
     toc_float: true
 ---
+
 # EDUCATION
 **Columbia University Mailman School of Public Health** 
 Master of Public Health: Biostatistics, Certificate in Advanced Epidemiology 
 
-** Boston College (BC)** 
-Bachelor of Science in Neuroscience (GPA: 3.52)
+**Boston College (BC)** 
+Bachelor of Science in Neuroscience
 
 # RESEARCH EXPERIENCE
 

@@ -15,58 +15,52 @@ library(rnoaa)
 library(ggplot2)
 ```
 
-```{r, echo = FALSE,message = FALSE, warning = FALSE}
+```{r, echo = FALSE}
+data("ny_noaa")
 weather_df = 
-  rnoaa::meteo_pull_monitors(
-    c("USW00094728", "USW00022534", "USS0023B17S"),
-    var = c("PRCP", "TMIN", "TMAX"), 
-    date_min = "2021-01-01",
-    date_max = "2022-12-31") |>
+  ny_noaa %>%
+  mutate(date = ymd(date)) %>% 
+  separate(date, into = c("year", "month", "day"), convert = TRUE) %>%
+  filter(id == "USW00094728") %>% 
+  mutate(name = if_else(id == "USW00094728", "CentralPark_NY", NA_character_)) %>% 
   mutate(
-    name = case_match(
-      id, 
-      "USW00094728" ~ "CentralPark_NY"),
-    tmin = tmin / 10,
-    tmax = tmax / 10) |>
-    separate(date, into = c("year", "month", "day"), sep = "-", convert = TRUE) %>% 
-    mutate(
-    month = as.factor(month)
-  ) %>% 
-    select(name, id, everything())
+    tmax = as.numeric(tmax),
+    tmin = as.numeric(tmin)
+  )
+  #filter(year == 2007) 
 ```
 {data-width=650}
 -----------------------------------------------------------------------
 
-### Scatterplot of Minimum and Maximum Temperatures at Central Park
+### Scatterplot of Minimum and Maximum Temperatures at Central Park in 2007
 ```{r scatterplot, echo=FALSE}
-scatter_ggplot = 
-  weather_df %>% 
-  ggplot(aes(x = tmin, y = tmax)) + 
-  geom_point(alpha = 0.25)+
-  labs(x = "Minimum Temperature", y = "Maximum Temperature",
-  title = "Scatterplot of Minimum and Maximum Temperatures at Central Park") +
-  coord_cartesian()
 
-ggplotly(scatter_ggplot)
+weather_df %>% 
+  plot_ly(x = ~tmin, y = ~tmax, type = 'scatter', mode = 'markers', alpha = 0.5) %>% 
+  layout(
+    title = "Scatterplot of Minimum and Maximum Temperatures at Central Park in 2007", 
+   xaxis = list(title = "Minimum Temperature"),
+   yaxis = list(title = "Maximum Temperature")
+  )
 ```
 
 Column {data-width=350}
 -----------------------------------------------------------------------
-
 ### Boxplot of Maximum Temperature in Central Park
 
 ```{r Boxplot, echo=FALSE}
 box_ggplot = 
   weather_df %>% 
   filter(!is.na(tmax) & is.finite(tmax)) %>%
+  mutate(month = as.factor(month)) %>% 
   ggplot(aes(x = month, y = tmax)) + 
   labs(y = "maximum temperature", title = "Boxplot of Maximum Temperature in Central Park") +
   geom_boxplot()
 
-ggplotly(box_ggplot)
+plotly::ggplotly(box_ggplot)
 ```
 
-### Barplot of Average Monthly Precipitation in CEntral Park 
+### Barplot of Average Monthly Precipitation in Central Park 
 
 ```{r barchart, echo=FALSE}
 weather_df_bar <- weather_df %>%
@@ -80,8 +74,8 @@ bar_ggplot =
   weather_df_bar %>% 
   ggplot(
     aes(x = month, y = avg_prcp)) +
-    geom_bar(stat = "identity")+
-      labs(x = "Month", y = "Precipitation",title = "Barplot of Average Monthly Precipitation in Central Park")
+    geom_bar(stat = "identity") +
+    labs(x = "Month", y = "Precipitation",title = "Barplot of Average Monthly Precipitation in Central Park")
 
 ggplotly(bar_ggplot)
 ```
