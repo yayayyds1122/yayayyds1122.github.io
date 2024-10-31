@@ -29,7 +29,7 @@ weather_df =
   )
   #filter(year == 2007) 
 ```
-{data-width=650}
+Column {data-width=650}
 -----------------------------------------------------------------------
 
 ### Scatterplot of Minimum and Maximum Temperatures at Central Park in 2007
