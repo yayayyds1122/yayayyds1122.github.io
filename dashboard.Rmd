@@ -30,22 +30,21 @@ weather_df =
   #filter(year == 2007) 
 ```
 Column {data-width=650}
------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
-### Scatterplot of Minimum and Maximum Temperatures at Central Park in 2007
+### Scatterplot of Minimum and Maximum Temperatures at Central Park
 ```{r scatterplot, echo=FALSE}
 
 weather_df %>% 
   plot_ly(x = ~tmin, y = ~tmax, type = 'scatter', mode = 'markers', alpha = 0.5) %>% 
   layout(
-    title = "Scatterplot of Minimum and Maximum Temperatures at Central Park in 2007", 
+    title = "Scatterplot of Minimum and Maximum Temperatures at Central Park", 
    xaxis = list(title = "Minimum Temperature"),
    yaxis = list(title = "Maximum Temperature")
   )
 ```
-
 Column {data-width=350}
------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
 ### Boxplot of Maximum Temperature in Central Park
 
 ```{r Boxplot, echo=FALSE}
